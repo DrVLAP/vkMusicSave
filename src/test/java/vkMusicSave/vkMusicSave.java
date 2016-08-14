@@ -7,6 +7,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +19,7 @@ public class vkMusicSave {
     public WebDriver driver;
     private AuthLoginAndPass authLoginAndPassword = new AuthLoginAndPass();
     public List<WebElement> musicElementList;
-    public List<String> musicList;
+    public ArrayList<String> musicList = new ArrayList<String>();
     public Integer musicElementIndex;
 
     @BeforeMethod
@@ -56,28 +57,30 @@ public class vkMusicSave {
     }
 
     public void musicTabLogick() throws InterruptedException {
+        Thread.sleep(1500);
         driver.findElement(By.id("l_aud")).click();
         System.out.println("Music tab opened;");
         Thread.sleep(1500);
         musicElementList = driver.findElements(By.cssSelector("*[class^='audio_row']"));
-        for (int m = 1; m < musicElementList.size(); m++){
-            System.out.println(musicElementList.get(m).getAttribute("data-audio"));
-//            musicList.add(musicElementList.get(m+1).getAttribute("data-audio"));
-        }
     }
 
     public void makeMusicList() {
         for (int m = 1; m < musicElementList.size(); m++) {
             String[] musicData = musicElementList.get(m).getAttribute("data-audio").split(",");
-            System.out.println("Исполнитель: " + musicData[4]);
-            System.out.println("Композиция: " + musicData[3]);
-            System.out.println("------------------------------");
-            musicList.add(musicData[4]+": "+musicData[3]);
-            System.out.println("------------------------------");
+//            System.out.println("Исполнитель: " + musicData[4]);
+//            System.out.println("Композиция: " + musicData[3]);
+//            System.out.println("------------------------------");
+//            System.out.println(musicList.size());
+            musicList.add( musicData[4].replaceAll("\"", "")+": "+musicData[3].replaceAll("\"", ""));
+//            System.out.println("------------------------------");
         }
+        System.out.println("----------------------------------");
+        System.out.println("Список композиций:");
         for (String compositionId: musicList){
-            System.out.println(musicList.get(Integer.parseInt(compositionId)));
+
+            System.out.println(compositionId.replaceAll("&#039;", "'"));
         }
     }
+
 
 }

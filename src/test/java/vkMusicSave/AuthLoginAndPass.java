@@ -7,8 +7,8 @@ import java.util.Scanner;
  */
 public class AuthLoginAndPass {
 
-    private String login = "dr.vlap@gmail.com";
-    private String password = "fre23l11vlap4";
+    private String login = "";
+    private String password = "";
 
     public String getLogin(){
         return login;
