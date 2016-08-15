@@ -41,7 +41,7 @@ public class vkMusicSave {
         System.out.println("Authorized;");
 
         musicTabLogick();
-        scrollingToTheEnd();
+        //scrollingToTheEnd();
         makeMusicList();
     }
 
@@ -68,10 +68,11 @@ public class vkMusicSave {
         driver.findElement(By.id("l_aud")).click();
         System.out.println("Music tab opened;");
         Thread.sleep(1500);
-        //musicElementList = driver.findElements(By.cssSelector("*[class^='audio_row']"));
+
     }
 
     public void makeMusicList() throws IOException {
+        musicElementList = driver.findElements(By.cssSelector("*[class^='audio_row']"));
         for (int m = 1; m < musicElementList.size(); m++) {
             String[] musicData = musicElementList.get(m).getAttribute("data-audio").split("\",");
 //            System.out.println("Исполнитель: " + musicData[4]);
@@ -83,11 +84,13 @@ public class vkMusicSave {
         }
         System.out.println("----------------------------------");
         System.out.println("Список композиций:");
-        FileWriter writer = new FileWriter("C:\\vkmusic.txt", true);
+        FileWriter writer = new FileWriter("C:/vkmusic.txt", true);
         for (String compositionId: musicList){
 
             System.out.println(compositionId.replaceAll("&#039;", "'").replaceAll("&amp;","&").replaceAll("&quot;","\""));
+            //TODO Следующие две строки не работают. Допилить запись в файл
             writer.write(compositionId.replaceAll("&#039;", "'").replaceAll("&amp;","&").replaceAll("&quot;","\""));
+            writer.append("\n");
         }
     }
     //TODO scrolling music method
