@@ -89,8 +89,8 @@ public class vkMusicSave {
 
             System.out.println(compositionId.replaceAll("&#039;", "'").replaceAll("&amp;","&").replaceAll("&quot;","\""));
             //TODO Следующие две строки не работают. Допилить запись в файл
-            writer.write(compositionId.replaceAll("&#039;", "'").replaceAll("&amp;","&").replaceAll("&quot;","\""));
-            writer.append("\n");
+            writer.write(compositionId.replaceAll("&#039;", "'").replaceAll("&amp;","&").replaceAll("&quot;","\"")+"\n");
+            writer.flush();
         }
     }
     //TODO scrolling music method
