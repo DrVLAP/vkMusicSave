@@ -41,8 +41,9 @@ public class vkMusicSave {
         System.out.println("Authorized;");
 
         musicTabLogick();
-        //scrollingToTheEnd();
+        scrollingToTheEnd();
         makeMusicList();
+        driver.close();
     }
 
     public void openPage(){
@@ -89,7 +90,8 @@ public class vkMusicSave {
 
             System.out.println(compositionId.replaceAll("&#039;", "'").replaceAll("&amp;","&").replaceAll("&quot;","\""));
             //TODO Следующие две строки не работают. Допилить запись в файл
-            writer.write(compositionId.replaceAll("&#039;", "'").replaceAll("&amp;","&").replaceAll("&quot;","\"")+"\n");
+            writer.write(compositionId.replaceAll("&#039;", "'").replaceAll("&amp;","&").replaceAll("&quot;","\"")+"\n\r");
+            writer.write("\n");
             writer.flush();
         }
     }
