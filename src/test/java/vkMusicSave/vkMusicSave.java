@@ -30,8 +30,6 @@ public class vkMusicSave {
     @BeforeMethod
     public void setUp(){
         //driver = new FirefoxDriver();
-
-
         System.setProperty("webdriver.chrome.driver", "E:/IdeaProjects/vkMusicSave/chromedriver.exe");
         driver = new ChromeDriver();
     }
