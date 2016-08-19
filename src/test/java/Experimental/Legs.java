@@ -1,9 +1,7 @@
 package Experimental;
 
-import com.google.common.net.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import com.squareup.okhttp.*;
+import okio.Buffer;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,7 +18,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
-import org.omg.CORBA.Request;
 import org.testng.annotations.Test;
 
 import java.io.*;
@@ -50,7 +47,7 @@ public class Legs{
         }
     @Test
     public void vkGetMusicPostRequest() throws IOException {
-        CookieHandler.setDefault(new CookieManager());
+
         FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
         //Адрес, куда будет стучаться запрос
         String url = "https://vk.com/dev/";
@@ -95,8 +92,8 @@ public class Legs{
         System.out.println(Arrays.toString(httpPost.getAllHeaders()));
         System.out.println("Сущности:");
         System.out.println(httpPost.getEntity());
-        System.out.println("Весь запрос целиком?");
-        System.out.println(httpPost.getRequestLine());
+        System.out.println("Весь запрос целиком");
+        //System.out.println(httpPost.); пока что не получается его получить
         System.out.println("Uri");
         System.out.println(httpPost.getURI());
         System.out.println("Отправление запроса;");
@@ -108,7 +105,7 @@ public class Legs{
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
 
-        //Next code is sending
+        //Next code is sending request results to the file
         StringBuffer result = new StringBuffer();
         String line;
         while ((line = bufferedReader.readLine())!=null){
@@ -141,8 +138,8 @@ public class Legs{
 //            }
 //        }
     }
-
-    public void ls(){
+    @Test
+    public void ls() throws IOException {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -165,22 +162,16 @@ public class Legs{
 
         Response response = client.newCall(request).execute();
 
+        System.out.println("response request:");
+        System.out.println(request.newBuilder().build().toString());
+        System.out.println("response body:");
+        System.out.println(response.body().string());
+
 
     }
 
-    HttpResponse<String> response = Unirest.post("https://vk.com/dev/")
-            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
-            .header("accept-encoding", "gzip, deflate, br")
-            .header("accept-language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3")
-            .header("content-type", "application/x-www-form-urlencoded")
-            .header("host", "vk.com")
-            .header("referer", "https://vk.com/dev/")
-            .header("x-requested-with", "XMLHttpRequest")
-            .header("connection", "keep-alive")
-            .header("cache-control", "no-cache")
-            .header("postman-token", "fa07a904-a41a-df39-2cc7-6e007942e8da")
-            .body("act=a_run_method&al=1&method=audio.get&param_count=549&param_need_user=0&param_owner_id=16930562&param_v=3.0&hash=1471494582%3A5097bcf11763b99ab8")
-            .asString();
+
+
 
 
 }
