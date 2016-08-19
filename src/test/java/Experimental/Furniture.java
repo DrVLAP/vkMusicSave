@@ -5,13 +5,6 @@ package Experimental;
  */
 public class Furniture {
 
-    private int price;
 
-    public Integer getPrice(){
-        return price;
-    }
 
-    public Integer setPrice(){
-        return price;
-    }
 }

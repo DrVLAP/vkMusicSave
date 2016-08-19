@@ -11,6 +11,8 @@ import org.testng.annotations.Test;
  */
 public class TokenGrab {
 
+    private String token;
+
     public WebDriver driver;
 
     @BeforeMethod
@@ -26,17 +28,37 @@ public class TokenGrab {
 
         String tokengraburl = "https://oauth.vk.com/authorize?client_id=1&display=mobile&redirect_uri=https://oauth.vk.com/blank.html&response_type=token&v=3.0";
         driver.get(tokengraburl);
+        Thread.sleep(10000);
+        System.out.println("Ввод логина и пароля");
         driver.findElement(By.xpath(".//*[@id='mcont']/div/div[2]/form/dl[1]/dd/div/input")).sendKeys(loginAndPass.getLogin());
         driver.findElement(By.xpath(".//*[@id='mcont']/div/div[2]/form/dl[2]/dd/div/input")).sendKeys(loginAndPass.getPassword());
+        System.out.println("Логин и пароль введены");
         driver.findElement(By.className("button")).click();
-        Thread.sleep(1000);
-        driver.get(tokengraburl);
-        driver.findElement(By.xpath(".//*[@id='mcont']/div/div[2]/form/div/input")).click();
+        Thread.sleep(10000);
+        System.out.println("Урл, на который произошел редирект");
+        driver.get(driver.getCurrentUrl());
+        Thread.sleep(10000);
+        try {
+            System.out.println("Клик по кнопке \"Разрешить\"");
+            driver.findElement(By.xpath(".//*[@id='mcont']/div/div[2]/form/div/input")).click();
+        } catch (Exception e) {
 
+        }
+
+    }
+
+    public String getToken(){
+        return token;
+    }
+
+    private void getTokenFromUrl(){
         String tokenurl = driver.getCurrentUrl();
         String[] tokenurlparts = tokenurl.split("&");
         System.out.println(tokenurl);
         System.out.println(tokenurlparts[0]);
-
+        tokenurlparts = tokenurlparts[0].split("=");
+        token = tokenurlparts[1];
+        System.out.println(token);
     }
+
 }
