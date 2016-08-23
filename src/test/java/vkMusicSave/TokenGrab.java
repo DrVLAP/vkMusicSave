@@ -23,10 +23,13 @@ public class TokenGrab {
     }
     @Test
     public void GivePermission() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "E:/IdeaProjects/vkMusicSave/chromedriver.exe");
+        driver = new ChromeDriver();
+
         AuthLoginAndPass loginAndPass = new AuthLoginAndPass();
 
 
-        String tokengraburl = "https://oauth.vk.com/authorize?client_id=1&display=mobile&redirect_uri=https://oauth.vk.com/blank.html&response_type=token&v=3.0";
+        String tokengraburl = "https://oauth.vk.com/authorize?client_id=1&display=mobile&redirect_uri=https://oauth.vk.com/blank.html&scope=audio&response_type=token&v=3.0&revoke=0";
         driver.get(tokengraburl);
         Thread.sleep(10000);
         System.out.println("Ввод логина и пароля");
@@ -42,9 +45,10 @@ public class TokenGrab {
             System.out.println("Клик по кнопке \"Разрешить\"");
             driver.findElement(By.xpath(".//*[@id='mcont']/div/div[2]/form/div/input")).click();
         } catch (Exception e) {
-
+            getTokenFromUrl();
+            return;
         }
-
+        getTokenFromUrl();
     }
 
     public String getToken(){

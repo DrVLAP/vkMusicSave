@@ -19,6 +19,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.testng.annotations.Test;
+import vkMusicSave.TokenGrab;
 
 import java.io.*;
 import java.net.CookieHandler;
@@ -46,11 +47,16 @@ public class Legs{
 
         }
     @Test
-    public void vkGetMusicPostRequest() throws IOException {
+    public void vkGetMusicPostRequest() throws IOException, InterruptedException {
 
+        TokenGrab token = new TokenGrab();
+        //token.GivePermission();
+        //System.out.println(token.getToken());
         FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
         //Адрес, куда будет стучаться запрос
-        String url = "https://vk.com/dev/";
+        String url = "https://api.vk.com/method/audio.get?params[owner_id]=16930562&params[need_user]=1&params[count]=549&params[v]=3.0&access_token=15616d454e45e107dd66e5d39bb5d15caefef66a19f4de9018779f24c9649b71d873381fd4ab199c3afcf";
+        //"Этот адрес использовался раньше
+        //String url = "https://api.vk.com/";
 
 
         //This string is working. If will have future problems will return to this creation of the httpClient
@@ -62,7 +68,7 @@ public class Legs{
 
         //Request parameters and other properties
         List<NameValuePair> params= new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("act","a_run_method"));
+        /*params.add(new BasicNameValuePair("act","a_run_method"));
         params.add(new BasicNameValuePair("al","1"));
 
         params.add(new BasicNameValuePair("method","audio.get"));
@@ -72,18 +78,18 @@ public class Legs{
         params.add(new BasicNameValuePair("param_v","3.0"));
         params.add(new BasicNameValuePair("hash","1471494582:5097bcf11763b99ab8"));
 
-
+/*
         //Adding headers
-        httpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        httpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,/*;q=0.8");
         httpPost.setHeader("Accept-Encoding", "gzip, deflate, br");
         httpPost.setHeader("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
         httpPost.setHeader("Connection", "keep-alive");
         //httpPost.setHeader("Content-Length", "145");
         httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
         httpPost.setHeader("Host", "vk.com");
-        httpPost.setHeader("Referer", "https://vk.com/dev/audio.get?params[owner_id]=16930562&params[need_user]=1&params[count]=549&params[v]=3.0");
+        httpPost.setHeader("Referer", "https://api.vk.com/method/audio.get?params[owner_id]=16930562&params[need_user]=1&params[count]=549&params[v]=3.0&access_token=15616d454e45e107dd66e5d39bb5d15caefef66a19f4de9018779f24c9649b71d873381fd4ab199c3afcf"  );//+token.getToken());
         httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
-//        httpPost.setHeader("Connection", "keep-alive");
+//        httpPost.setHeader("Connection", "keep-alive");*/
 
         httpPost.setEntity(new UrlEncodedFormEntity(params));
         //Request executing
