@@ -54,7 +54,7 @@ public class Legs{
         //System.out.println(token.getToken());
         FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
         //Адрес, куда будет стучаться запрос
-        String url = "https://api.vk.com/method/audio.get?params[owner_id]=16930562&params[need_user]=1&params[count]=549&params[v]=3.0&access_token=15616d454e45e107dd66e5d39bb5d15caefef66a19f4de9018779f24c9649b71d873381fd4ab199c3afcf";
+        String url = "https://api.vk.com/method/audio.get?params[owner_id]=16930562&params[need_user]=1&params[count]=549&params[v]=3.0&access_token=";
         //"Этот адрес использовался раньше
         //String url = "https://api.vk.com/";
 
@@ -146,34 +146,34 @@ public class Legs{
     }
     @Test
     public void ls() throws IOException {
+        String url = "https://api.vk.com/method/audio.get";
+        HttpClient client = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        List<NameValuePair> params= new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("params[owner_id]","16930562"));
+        params.add(new BasicNameValuePair("params[need_user]","1"));
+        params.add(new BasicNameValuePair("params[count]","600"));
+        params.add(new BasicNameValuePair("params[v]","3.0"));
+        params.add(new BasicNameValuePair("access_token",""));
+        httpPost.setEntity(new UrlEncodedFormEntity(params));
+        HttpResponse response = client.execute(httpPost);
 
-        OkHttpClient client = new OkHttpClient();
-
-        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-        RequestBody body = RequestBody.create(mediaType, "act=a_run_method&al=1&method=audio.get&param_count=549&param_need_user=0&param_owner_id=16930562&param_v=3.0&hash=1471494582%3A5097bcf11763b99ab8");
-        Request request = new Request.Builder()
-                .url("https://vk.com/dev/")
-                .post(body)
-                .addHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
-                .addHeader("accept-encoding", "gzip, deflate, br")
-                .addHeader("accept-language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3")
-                .addHeader("content-type", "application/x-www-form-urlencoded")
-                .addHeader("host", "vk.com")
-                .addHeader("referer", "https://vk.com/dev/")
-                .addHeader("x-requested-with", "XMLHttpRequest")
-                .addHeader("connection", "keep-alive")
-                .addHeader("cache-control", "no-cache")
-                .addHeader("postman-token", "449d7114-aeed-37f7-5b17-55cf7bdc71f8")
-                .build();
-
-        Response response = client.newCall(request).execute();
-
-        System.out.println("response request:");
-        System.out.println(request.newBuilder().build().toString());
-        System.out.println("response body:");
-        System.out.println(response.body().string());
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
 
+        //Next code is sending request results to the file
+        FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
+        StringBuffer result = new StringBuffer();
+        String line;
+        while ((line = bufferedReader.readLine())!=null){
+
+            System.out.println(line);
+            httpFileWriter.write(line);
+            httpFileWriter.write("\n");
+            result.append(line);
+            httpFileWriter.flush();
+        }
+        bufferedReader.close();
     }
 
 
