@@ -30,8 +30,6 @@ public class Run {
         musicGet.GetMusicCount(tokenGrab.getToken());
         musicGet.GetMusicList(tokenGrab.getToken());
         musicGet.GetMusicArrayForReport();
-
-
         driver.close();
     }
 }

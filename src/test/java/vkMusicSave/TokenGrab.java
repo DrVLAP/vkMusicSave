@@ -11,31 +11,12 @@ public class TokenGrab {
 
     private String token;
 
-    //public WebDriver driver;
-
-//    @BeforeMethod
-//    public void setUp(){
-//        driver = new FirefoxDriver();
-//        System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe");
-//        driver = new ChromeDriver();
-//    }
     @Test
-<<<<<<< HEAD
     public void GivePermission(WebDriver driver) throws InterruptedException {
         System.out.println("GivePermission: Получение логина и пасса - создание объекта");
         AuthLoginAndPass loginAndPass = new AuthLoginAndPass();
 
-        String tokengraburl = "https://oauth.vk.com/authorize?client_id=1&scope=audio&display=mobile&redirect_uri=https://oauth.vk.com/blank.html&response_type=token&v=3.0";
-=======
-    public void GivePermission() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "E:/IdeaProjects/vkMusicSave/chromedriver.exe");
-        driver = new ChromeDriver();
-
-        AuthLoginAndPass loginAndPass = new AuthLoginAndPass();
-
-
         String tokengraburl = "https://oauth.vk.com/authorize?client_id=1&display=mobile&redirect_uri=https://oauth.vk.com/blank.html&scope=audio&response_type=token&v=3.0&revoke=0";
->>>>>>> origin/master
         driver.get(tokengraburl);
         Thread.sleep(1000);
         System.out.println("Ввод логина и пароля");
@@ -51,18 +32,15 @@ public class TokenGrab {
             System.out.println("Клик по кнопке \"Разрешить\"");
             driver.findElement(By.xpath(".//*[@id='mcont']/div/div[2]/form/div/input")).click();
         } catch (Exception e) {
-<<<<<<< HEAD
+
             System.out.println("Кнопка отсутствует, получаю ссылку");
         }
         getTokenFromUrl(driver);
 
-=======
-            getTokenFromUrl();
-            return;
+
         }
-        getTokenFromUrl();
->>>>>>> origin/master
-    }
+
+
 
     public String getToken(){
         return token;
@@ -76,6 +54,7 @@ public class TokenGrab {
         tokenurlparts = tokenurlparts[0].split("=");
         token = tokenurlparts[1];
         System.out.println(token);
+
     }
 
 }

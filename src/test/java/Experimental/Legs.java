@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class Legs{
 
-    String vkGetMusicJsonString = new String();
+    String vkGetMusicJsonString;
 
    public void writerBlya()  throws IOException {
         FileWriter writer = new FileWriter("C:/vkmusic.txt", true);
@@ -135,16 +135,11 @@ public class Legs{
 
 
     @Test
-<<<<<<< HEAD
     public void ls() throws IOException, InterruptedException {
         TokenGrab tokenGrab = new TokenGrab();
         System.out.println("Создан tokenGrab, получение токена");
        // tokenGrab.GivePermission(driver);
 
-
-=======
-    public void ls() throws IOException {
->>>>>>> origin/master
         String url = "https://api.vk.com/method/audio.get";
         HttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
@@ -153,35 +148,22 @@ public class Legs{
         params.add(new BasicNameValuePair("params[need_user]","1"));
         params.add(new BasicNameValuePair("params[count]","600"));
         params.add(new BasicNameValuePair("params[v]","3.0"));
-<<<<<<< HEAD
+
         params.add(new BasicNameValuePair("access_token",tokenGrab.getToken()));
-=======
-        params.add(new BasicNameValuePair("access_token",""));
->>>>>>> origin/master
+
         httpPost.setEntity(new UrlEncodedFormEntity(params));
         HttpResponse response = client.execute(httpPost);
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
 
-        //Next code is sending request results to the file
-        FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
-        StringBuffer result = new StringBuffer();
-        String line;
-        while ((line = bufferedReader.readLine())!=null){
 
-<<<<<<< HEAD
         //Next code is sending request results to the file
         FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
         StringBuffer result = new StringBuffer();
         String line;
         while ((line = bufferedReader.readLine())!=null){
             vkGetMusicJsonString = line;
-=======
->>>>>>> origin/master
             System.out.println(line);
             httpFileWriter.write(line);
             httpFileWriter.write("\n");

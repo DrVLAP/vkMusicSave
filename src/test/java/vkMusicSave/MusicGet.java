@@ -7,10 +7,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,15 +24,11 @@ import java.util.List;
  */
 public class MusicGet {
 
-    private String vkGetMusicJsonString = new String();
-    private String vkGetMusicMusicCount = new String();
+    private String vkGetMusicJsonString;
+    private String vkGetMusicMusicCount;
     private JSONParser jsonParser = new JSONParser();
-    JSONObject jsonAudioCount;
-    JSONObject jsonAudioArray;
-    JSONArray audio;
 
-
-
+    //Method to get number of audio.
     public void GetMusicCount(String token) throws InterruptedException, IOException, ParseException {
         String url = "https://api.vk.com/method/audio.getCount";
         HttpClient client = HttpClients.createDefault();
@@ -54,31 +52,35 @@ public class MusicGet {
 
     // get a String with number of audio from the JSON object
     public void GetMusicCountParse() throws ParseException {
-        jsonAudioCount = (JSONObject) jsonParser.parse(vkGetMusicMusicCount);
+        JSONObject jsonAudioCount = (JSONObject) jsonParser.parse(vkGetMusicMusicCount);
         vkGetMusicMusicCount = String.valueOf(jsonAudioCount.get("response"));
         System.out.println("vkGetMusicMusicCount: "+vkGetMusicMusicCount);
     }
 
+    //Method to build report with only audio titles and url's
     public void GetMusicArrayForReport() throws ParseException, IOException {
         FileWriter AudioArrayFileWriter = new FileWriter("C:/vkmusicarray.txt", true);
 
+        JSONObject JSONObject = (JSONObject) jsonParser.parse(vkGetMusicJsonString);
+        JSONObject jsonAudioArray = (JSONObject) JSONObject.get("response");
+        JSONArray audio = (JSONArray) jsonAudioArray.get("items");
 
-        jsonAudioArray = (JSONObject) jsonParser.parse(vkGetMusicJsonString);
-        audio = (JSONArray) jsonAudioArray.get("response");
         Iterator i = audio.iterator();
-
         while (i.hasNext()){
-            JSONObject music=(JSONObject) i.next();
-
+            JSONObject music = (JSONObject) i.next();
             AudioArrayFileWriter.write(String.valueOf(music.get("artist"))+": ");
+            AudioArrayFileWriter.write("\n");
             AudioArrayFileWriter.write(String.valueOf(music.get("title"))+";");
             AudioArrayFileWriter.write("\n");
             AudioArrayFileWriter.write(String.valueOf(music.get("url")));
+            AudioArrayFileWriter.write("\n");
             AudioArrayFileWriter.write("--------------------------");
+            AudioArrayFileWriter.write("\n");
             AudioArrayFileWriter.flush();
         }
     }
 
+    //Request to the vk api with method audio.get to get all requiered audio
     public void GetMusicList(String token) throws InterruptedException, IOException {
 
     String url = "https://api.vk.com/method/audio.get";
