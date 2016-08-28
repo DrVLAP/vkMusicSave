@@ -35,11 +35,16 @@ public class Legs{
 
         }
     @Test
-    public void vkGetMusicPostRequest() throws IOException {
+    public void vkGetMusicPostRequest() throws IOException, InterruptedException {
 
+        TokenGrab token = new TokenGrab();
+        //token.GivePermission();
+        //System.out.println(token.getToken());
         FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
         //Адрес, куда будет стучаться запрос
-        String url = "https://vk.com/dev/";
+        String url = "https://api.vk.com/method/audio.get?params[owner_id]=16930562&params[need_user]=1&params[count]=549&params[v]=3.0&access_token=";
+        //"Этот адрес использовался раньше
+        //String url = "https://api.vk.com/";
 
 
         //This string is working. If will have future problems will return to this creation of the httpClient
@@ -51,7 +56,7 @@ public class Legs{
 
         //Request parameters and other properties
         List<NameValuePair> params= new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("act","a_run_method"));
+        /*params.add(new BasicNameValuePair("act","a_run_method"));
         params.add(new BasicNameValuePair("al","1"));
 
         params.add(new BasicNameValuePair("method","audio.get"));
@@ -61,18 +66,18 @@ public class Legs{
         params.add(new BasicNameValuePair("param_v","3.0"));
         params.add(new BasicNameValuePair("hash","1471494582:5097bcf11763b99ab8"));
 
-
+/*
         //Adding headers
-        httpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        httpPost.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,/*;q=0.8");
         httpPost.setHeader("Accept-Encoding", "gzip, deflate, br");
         httpPost.setHeader("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
         httpPost.setHeader("Connection", "keep-alive");
         //httpPost.setHeader("Content-Length", "145");
         httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
         httpPost.setHeader("Host", "vk.com");
-        httpPost.setHeader("Referer", "https://vk.com/dev/audio.get?params[owner_id]=16930562&params[need_user]=1&params[count]=549&params[v]=3.0");
+        httpPost.setHeader("Referer", "https://api.vk.com/method/audio.get?params[owner_id]=16930562&params[need_user]=1&params[count]=549&params[v]=3.0&access_token=15616d454e45e107dd66e5d39bb5d15caefef66a19f4de9018779f24c9649b71d873381fd4ab199c3afcf"  );//+token.getToken());
         httpPost.setHeader("X-Requested-With", "XMLHttpRequest");
-//        httpPost.setHeader("Connection", "keep-alive");
+//        httpPost.setHeader("Connection", "keep-alive");*/
 
         httpPost.setEntity(new UrlEncodedFormEntity(params));
         //Request executing
@@ -130,12 +135,16 @@ public class Legs{
 
 
     @Test
+<<<<<<< HEAD
     public void ls() throws IOException, InterruptedException {
         TokenGrab tokenGrab = new TokenGrab();
         System.out.println("Создан tokenGrab, получение токена");
        // tokenGrab.GivePermission(driver);
 
 
+=======
+    public void ls() throws IOException {
+>>>>>>> origin/master
         String url = "https://api.vk.com/method/audio.get";
         HttpClient client = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost(url);
@@ -144,19 +153,35 @@ public class Legs{
         params.add(new BasicNameValuePair("params[need_user]","1"));
         params.add(new BasicNameValuePair("params[count]","600"));
         params.add(new BasicNameValuePair("params[v]","3.0"));
+<<<<<<< HEAD
         params.add(new BasicNameValuePair("access_token",tokenGrab.getToken()));
+=======
+        params.add(new BasicNameValuePair("access_token",""));
+>>>>>>> origin/master
         httpPost.setEntity(new UrlEncodedFormEntity(params));
         HttpResponse response = client.execute(httpPost);
 
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/master
 
         //Next code is sending request results to the file
         FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
         StringBuffer result = new StringBuffer();
         String line;
         while ((line = bufferedReader.readLine())!=null){
+
+<<<<<<< HEAD
+        //Next code is sending request results to the file
+        FileWriter httpFileWriter = new FileWriter("C:/vkmusicpost.txt", true);
+        StringBuffer result = new StringBuffer();
+        String line;
+        while ((line = bufferedReader.readLine())!=null){
             vkGetMusicJsonString = line;
+=======
+>>>>>>> origin/master
             System.out.println(line);
             httpFileWriter.write(line);
             httpFileWriter.write("\n");
