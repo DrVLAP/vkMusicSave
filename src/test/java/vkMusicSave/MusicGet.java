@@ -1,5 +1,7 @@
 package vkMusicSave;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -15,6 +17,8 @@ import org.json.simple.parser.ParseException;
 
 
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +31,7 @@ public class MusicGet {
     private String vkGetMusicJsonString;
     private String vkGetMusicMusicCount;
     private JSONParser jsonParser = new JSONParser();
+    private List<String> audioNameUrl = new ArrayList<String>();
 
     //Method to get number of audio.
     public void GetMusicCount(String token) throws InterruptedException, IOException, ParseException {
@@ -68,8 +73,16 @@ public class MusicGet {
         Iterator i = audio.iterator();
         while (i.hasNext()){
             JSONObject music = (JSONObject) i.next();
+
+            //Удаление некорректных символов из названия композиции
+            String result = (music.get("artist"))+" - "+String.valueOf(music.get("title"));
+            String[] forbiddenSymbols = new String[] {"<", ">", ":", "\"", "/", "\\", "|", "?", "*"};
+            for (String forbiddensymbol: forbiddenSymbols)
+            {
+                result = StringUtils.replace(result, forbiddensymbol, "");
+            }
+            audioNameUrl.add(result+"|"+String.valueOf(music.get("url")));
             AudioArrayFileWriter.write(String.valueOf(music.get("artist"))+": ");
-            AudioArrayFileWriter.write("\n");
             AudioArrayFileWriter.write(String.valueOf(music.get("title"))+";");
             AudioArrayFileWriter.write("\n");
             AudioArrayFileWriter.write(String.valueOf(music.get("url")));
@@ -109,7 +122,24 @@ public class MusicGet {
         httpFileWriter.write("\n");
         result.append(line);
         httpFileWriter.flush();
-    }
+        }
     bufferedReader.close();
-}
+    }
+
+    public void AudioSave() throws IOException {
+        for (String audioUrl: audioNameUrl) {
+            System.out.println(audioUrl);
+            String[] audioNameUrlSplit = audioUrl.split("\\|");
+            String result =  audioNameUrlSplit[0];
+
+            System.out.println(audioNameUrlSplit[1]);
+            URL url = new URL(audioNameUrlSplit[1]);
+            System.out.println(url);
+//        File destination = new File("E:\\VK Music Collection\\"+audiosplit[0]+".mp3");
+            File destination = new File("E:\\VK Music Collection\\"+result+".mp3");
+            FileUtils.copyURLToFile(url, destination);
+        }
+    }
+
+
 }
