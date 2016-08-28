@@ -76,7 +76,7 @@ public class MusicGet {
 
             //Удаление некорректных символов из названия композиции
             String result = (music.get("artist"))+" - "+String.valueOf(music.get("title"));
-            String[] forbiddenSymbols = new String[] {"<", ">", ":", "\"", "/", "\\", "|", "?", "*"};
+            String[] forbiddenSymbols = new String[] {"<", ">", ":", "\"", "/", "\\", "|", "?", "*", ".", "(", ")"};
             for (String forbiddensymbol: forbiddenSymbols)
             {
                 result = StringUtils.replace(result, forbiddensymbol, "");
